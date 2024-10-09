@@ -29,7 +29,7 @@ steps:
     apt update
     apt install curl -y
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-    cd quickstarts/whereami/helm-chart
+    cd whereami/helm-chart
     helm package .
     helm push whereami-1.2.22.tgz oci://us-west1-docker.pkg.dev/murriel-boutique-demo/quickstart-repo/charts
 
