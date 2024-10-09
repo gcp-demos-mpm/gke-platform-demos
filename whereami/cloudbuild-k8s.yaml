@@ -1,0 +1,14 @@
+# This cloudbuild file is used to deploy 
+# the kubernetes manifests to a GKE cluster
+
+steps:
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'Deploy to GKE'
+  args:
+  - 'apply'
+  - '-k'
+  - 'whereami/k8s'
+  - '--namespace=whereami'
+  env: 
+  - 'CLOUDSDK_COMPUTE_REGION=us-central1'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=gke1'
