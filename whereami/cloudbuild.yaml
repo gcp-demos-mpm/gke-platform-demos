@@ -18,11 +18,13 @@
 
 steps:
 - name: 'gcr.io/cloud-builders/docker'
+  id: A
   args:
     - 'build'
     - '-t'
     - 'us-west1-docker.pkg.dev/murriel-boutique-demo/quickstart-repo/whereami:v1.2.22'
     - '.'
+  waitFor: ['-']
   dir: 'whereami'
 - name: ubuntu
   script: |
@@ -32,6 +34,8 @@ steps:
     cd whereami/helm-chart
     helm package .
     helm push whereami-1.2.22.tgz oci://us-west1-docker.pkg.dev/murriel-boutique-demo/quickstart-repo/charts
-
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  args: ['gsutil', 'cp', 'release.txt', 'gs://murriel-boutique-demo_cloudbuild/release-$BUILD_ID.txt']
+  waitFor: ['A']
 images:
   - 'us-west1-docker.pkg.dev/murriel-boutique-demo/quickstart-repo/whereami:v1.2.22'
